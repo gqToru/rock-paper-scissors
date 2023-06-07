@@ -4,7 +4,7 @@
 
     * Create three buttons, one for each selection. 
 
-    * Add an event listener to the buttons that call your playRound function with the correct playerSelection every time a button is clicked. (you can keep the console.logs for this step)
+    * Add an event listener to the buttons that call your playRound function with the correct userInput every time a button is clicked. (you can keep the console.logs for this step)
 
     * Add a div for displaying results and change all of your console.logs into DOM methods.
 
@@ -13,83 +13,73 @@
     * You will likely have to refactor (rework/rewrite) your original code to make it work for this. That’s OK! Reworking old code is an important part of a programmer’s life.
  */
 
-function pSelection() {
-  let userInput = prompt("Enter a selection (rock, paper, scissor)");
+let userInput = "";
+let playerScore = 0;
+let computerScore = 0;
 
-  userInput = userInput.toLowerCase();
+const rock = document.getElementById("rock");
+const paper = document.getElementById("paper");
+const scissor = document.getElementById("scissor");
 
-  if (
-    userInput !== "rock" &&
-    userInput !== "paper" &&
-    userInput !== "scissor"
-  ) {
-    pSelection();
-  } else {
-    return userInput;
-  }
-}
+rock.addEventListener("click", () => {
+  userInput = "rock";
+});
+
+paper.addEventListener("click", () => {
+  userInput = "paper";
+});
+
+scissor.addEventListener("click", () => {
+  userInput = "scissor";
+});
 
 function getComputerChoice() {
   const randomSelection = Math.floor(Math.random() * 3) + 1;
   switch (randomSelection) {
     case 1:
-      return "rock ";
-      break;
+      return "rock";
     case 2:
       return "paper";
-      break;
     case 3:
       return "scissor";
     default:
-      break;
+      return "";
   }
 }
 
-function playRound(playerSelection, computerSelection) {
+const playBtn = document.getElementById("playBtn");
+const userScore = document.getElementById("userScore");
+const machineScore = document.getElementById("machineScore");
+
+playBtn.addEventListener("click", () => {
+  let computerSelection = getComputerChoice();
+
+  if (userInput === "") {
+    // No selection made by the user
+    return;
+  }
+
   if (
-    (playerSelection === "rock" && computerSelection === "scissor") ||
-    (playerSelection === "paper" && computerSelection === "rock") ||
-    (playerSelection === "scissor" && computerSelection === "paper")
+    (userInput === "rock" && computerSelection === "scissor") ||
+    (userInput === "paper" && computerSelection === "rock") ||
+    (userInput === "scissor" && computerSelection === "paper")
   ) {
-    return 1;
+    playerScore++;
+    userScore.textContent = playerScore;
+    return;
   } else if (
-    (playerSelection === "rock" && computerSelection === "paper") ||
-    (playerSelection === "paper" && computerSelection === "scissor") ||
-    (playerSelection === "scissor" && computerSelection === "rock")
+    (userInput === "rock" && computerSelection === "paper") ||
+    (userInput === "paper" && computerSelection === "scissor") ||
+    (userInput === "scissor" && computerSelection === "rock")
   ) {
-    return 2;
-  } else if (playerSelection === computerSelection) {
-    return 3;
+    computerScore++;
+    machineScore.textContent = computerScore;
+    return;
+  } else if (userInput === computerSelection) {
+    return;
   }
-}
 
-function game() {
-  const playerSelection = pSelection();
-  const computerSelection = getComputerChoice();
-
-  return playRound(playerSelection, computerSelection);
-}
-
-let playerScore = 0;
-let computerScore = 0;
-
-// for (let i = 0; i < 5; i++) {
-//   let gameScore = game();
-
-//   if (gameScore === 1) {
-//     playerScore++;
-//   } else if (gameScore === 2) {
-//     computerScore++;
-//   }
-
-//   console.log("player score: ", playerScore);
-//   console.log("computer score: ", computerScore);
-// }
-
-if (playerScore > computerScore) {
-  console.log("Player Wins!");
-} else if (playerScore === computerScore) {
-  console.log("It's a draw!");
-} else {
-  console.log("Computer Wins");
-}
+  if (playerScore >= 5) {
+    userScore.textContent;
+  }
+});
